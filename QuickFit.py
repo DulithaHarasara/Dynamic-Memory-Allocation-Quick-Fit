@@ -12,29 +12,33 @@ class QuickFit:
             for key,value in self.memory[processSize].items():
                 if value >= processSize and value != 0:
                     self.memory[processSize][key] = 0
-                    return "ok"
+                    return f"Allocate {processSize} KB to the memory"
 
         else:
             sorted_key = sorted(self.memory.keys())
             
             for key in sorted_key:
-                print(self.memory[key])
+                #print(self.memory[key])
 
                 for keyele,value in self.memory[key].items():
                     if value != 0 and processSize <= value:
                         (self.memory[key])[keyele] = value - processSize
-                        return "Add"
+                        return f"Allocate {processSize} KB to the memory"
                 
-            return "No Space in the memory"
+            return f"No Space in the memory to allocate {processSize} KB"
 
     def viewMemory(self):
-        print(self.memory)
+        currentMemory = "\n\U0001F7E2 Current Memory Status:\n"
+        for size, blocks in self.memory.items():
+            currentMemory += f"Size {size}: {blocks}\n"
+        return currentMemory
 
 x = QuickFit()
+print(x.viewMemory())
 
 isRun = True
 while isRun:
-    sizeOfAllocate = int(input("Enter the size: "))
+    sizeOfAllocate = int(input("Enter the size (KB): "))
     response = x.allocate(sizeOfAllocate)
     print(response)
-    x.viewMemory()
+    print(x.viewMemory())
